@@ -2,6 +2,7 @@ using Auth0.AspNetCore.Authentication;
 using BlazorApp1.Components;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddRadzenComponents();
 
 var app = builder.Build();
 
