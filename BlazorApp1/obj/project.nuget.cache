@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "oXPYX6Oup/s=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\josep\\Source\\blazorAuth0\\BlazorApp1\\BlazorApp1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\josep\\.nuget\\packages\\auth0.aspnetcore.authentication\\1.5.0\\auth0.aspnetcore.authentication.1.5.0.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\8.0.18\\microsoft.aspnetcore.authentication.openidconnect.8.0.18.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.12.1\\microsoft.identitymodel.abstractions.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.12.1\\microsoft.identitymodel.jsonwebtokens.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.identitymodel.logging\\8.12.1\\microsoft.identitymodel.logging.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.identitymodel.protocols\\8.12.1\\microsoft.identitymodel.protocols.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\8.12.1\\microsoft.identitymodel.protocols.openidconnect.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.12.1\\microsoft.identitymodel.tokens.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.12.1\\system.identitymodel.tokens.jwt.8.12.1.nupkg.sha512",
+    "C:\\Users\\josep\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
