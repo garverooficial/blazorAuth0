@@ -2,6 +2,10 @@
 
 Este proyecto muestra paso a paso cómo conectar una aplicación **Blazor** con **Auth0** para manejar la autenticación de usuarios.
 
+En mi canal está el video del paso a paso.
+
+https://youtu.be/FoPqycHS2wo
+
 ## 🚀 Requisitos
 
 - .NET 7 o superior
@@ -45,5 +49,6 @@ Activa autenticación y autorización en la aplicación:
   "Domain": "TU_DOMINIO.auth0.com",
   "ClientId": "TU_CLIENT_ID"
 }
+
 
 
