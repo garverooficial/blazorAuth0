@@ -1,23 +1,68 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inherits LayoutComponentBase
+@rendermode InteractiveServer
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<RadzenLayout>
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+                <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)"/>
+                <RadzenLabel Text="Header"/>
+            </RadzenStack>
+            <RadzenProfileMenu>
+                <Template>
+                    @Username
+                    <RadzenImage Path="@Picture" Style="height: 32px; border-radius: 3rem;"></RadzenImage>
+                </Template>
+                <ChildContent>
+                    <AuthorizeView>
+                        <Authorized>
+                            <RadzenProfileMenuItem Text="@Username" Icon="account_circle"></RadzenProfileMenuItem>
+                            <RadzenProfileMenuItem Path="/Account/Logout" Text="Cerrar Sesión" Icon="logout"></RadzenProfileMenuItem>
+                        </Authorized>
+                        <NotAuthorized>
+                            <RadzenProfileMenuItem Path="/Account/Login" Text="Iniciar Sesión" Icon="login"></RadzenProfileMenuItem>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </ChildContent>
+            </RadzenProfileMenu>
+        </RadzenStack>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Icon="home"/>
+            <RadzenPanelMenuItem Text="Users" Icon="account_box"/>
+        </RadzenPanelMenu>
+        <div class="rz-p-4">
+            Sidebar
         </div>
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
+            Body
+        </div>
+    </RadzenBody>
+    <RadzenFooter>
+        Footer
+    </RadzenFooter>
+</RadzenLayout>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+@code {
+    bool sidebar1Expanded = true;
+    
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    private string Username = "";
+    private string? Picture = "";
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateTask;
+
+        Username = state.User.Identity.Name ?? string.Empty;
+        Picture = state.User.FindFirst("picture")?.Value;
+
+        await base.OnInitializedAsync();
+    }
+}
