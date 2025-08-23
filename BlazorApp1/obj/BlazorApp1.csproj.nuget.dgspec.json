@@ -52,6 +52,14 @@
               "target": "Package",
               "version": "[1.5.0, )"
             },
+            "Auth0.AuthenticationApi": {
+              "target": "Package",
+              "version": "[7.40.0, )"
+            },
+            "Auth0.ManagementApi": {
+              "target": "Package",
+              "version": "[7.40.0, )"
+            },
             "Radzen.Blazor": {
               "target": "Package",
               "version": "[7.2.3, )"

@@ -224,3 +224,7 @@ C:\Users\josep\Source\blazorAuth0\BlazorApp1\obj\Debug\net9.0\compressed\r9w1muf
 C:\Users\josep\Source\blazorAuth0\BlazorApp1\obj\Debug\net9.0\compressed\i1901ftr2x-kp0ueqs315.gz
 C:\Users\josep\Source\blazorAuth0\BlazorApp1\obj\Debug\net9.0\compressed\6xb9o06z95-9m4ex6rt0m.gz
 C:\Users\josep\Source\blazorAuth0\BlazorApp1\obj\Debug\net9.0\compressed\t2tvocn0z4-zc73wystbx.gz
+C:\Users\josep\Source\blazorAuth0\BlazorApp1\bin\Debug\net9.0\Auth0.AuthenticationApi.dll
+C:\Users\josep\Source\blazorAuth0\BlazorApp1\bin\Debug\net9.0\Auth0.Core.dll
+C:\Users\josep\Source\blazorAuth0\BlazorApp1\bin\Debug\net9.0\Auth0.ManagementApi.dll
+C:\Users\josep\Source\blazorAuth0\BlazorApp1\bin\Debug\net9.0\Newtonsoft.Json.dll

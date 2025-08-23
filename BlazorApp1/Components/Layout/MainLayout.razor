@@ -32,7 +32,7 @@
     <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Home" Icon="home"/>
-            <RadzenPanelMenuItem Text="Users" Icon="account_box"/>
+            <RadzenPanelMenuItem Text="Users" Path="/counter" Icon="account_box"/>
         </RadzenPanelMenu>
         <div class="rz-p-4">
             Sidebar
@@ -40,7 +40,7 @@
     </RadzenSidebar>
     <RadzenBody>
         <div class="rz-p-4">
-            Body
+            @Body
         </div>
     </RadzenBody>
     <RadzenFooter>

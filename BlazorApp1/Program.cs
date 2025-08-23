@@ -1,4 +1,7 @@
 using Auth0.AspNetCore.Authentication;
+using Auth0.AuthenticationApi;
+using Auth0.AuthenticationApi.Models;
+using Auth0.ManagementApi;
 using BlazorApp1.Components;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,6 +18,32 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+
+// Registro simple: crea el Management API client con Client Credentials  
+builder.Services.AddScoped<IManagementApiClient>(sp =>  
+{  
+    var cfg = sp.GetRequiredService<IConfiguration>();  
+    var domain = cfg["Auth0:Domain"];  
+    var audience = cfg["Auth0:Audience"] ?? $"https://{domain}/api/v2/";  
+    var clientId = cfg["Auth0:ClientId"];  
+    var clientSecret = cfg["Auth0:ClientSecret"];  
+  
+    if (string.IsNullOrWhiteSpace(domain) ||  
+        string.IsNullOrWhiteSpace(clientId) ||  
+        string.IsNullOrWhiteSpace(clientSecret))  
+    {        throw new InvalidOperationException("Faltan Auth0:Domain, Auth0:ClientId o Auth0:ClientSecret en la configuración.");  
+    }  
+    var authClient = new AuthenticationApiClient(new Uri($"https://{domain}/"));  
+    var token = authClient.GetTokenAsync(new ClientCredentialsTokenRequest  
+    {  
+        Audience = audience,  
+        ClientId = clientId,  
+        ClientSecret = clientSecret  
+    }).GetAwaiter().GetResult();  
+  
+    return new ManagementApiClient(token.AccessToken, new Uri(audience));  
+});
 
 builder.Services.AddRadzenComponents();
 
