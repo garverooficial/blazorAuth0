@@ -20,8 +20,7 @@
       "Auth0.AspNetCore.Authentication/1.5.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "8.0.18",
-          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.13.0",
-          "System.Text.Encodings.Web": "8.0.0"
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.13.0"
         },
         "runtime": {
           "lib/net8.0/Auth0.AspNetCore.Authentication.dll": {
@@ -91,8 +90,7 @@
       },
       "Microsoft.AspNetCore.Components/9.0.8": {
         "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "9.0.8",
-          "Microsoft.AspNetCore.Components.Analyzers": "9.0.8"
+          "Microsoft.AspNetCore.Authorization": "9.0.8"
         },
         "runtime": {
           "lib/net9.0/Microsoft.AspNetCore.Components.dll": {
@@ -101,7 +99,6 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Components.Analyzers/9.0.8": {},
       "Microsoft.AspNetCore.Components.Forms/9.0.8": {
         "dependencies": {
           "Microsoft.AspNetCore.Components": "9.0.8"
@@ -290,8 +287,7 @@
             "fileVersion": "8.13.0.60721"
           }
         }
-      },
-      "System.Text.Encodings.Web/8.0.0": {}
+      }
     }
   },
   "libraries": {
@@ -348,13 +344,6 @@
       "sha512": "sha512-+s+r/l2iBoU1mnG8ft9HS/xzqjd0cGbqnsVC9PgjNa5VGm/pVbPEMUJDea58iOaVETi7VGQCDoHLG83ObmlK2A==",
       "path": "microsoft.aspnetcore.components/9.0.8",
       "hashPath": "microsoft.aspnetcore.components.9.0.8.nupkg.sha512"
-    },
-    "Microsoft.AspNetCore.Components.Analyzers/9.0.8": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-uRx+7E0/nKIbQ0yG2/TYr6RYqeVanWwAVdwzzffGvTyI/jZBE3YT9aJ9c0DGrhgvkDZPzH1Z4ryp6LdMmBJFAQ==",
-      "path": "microsoft.aspnetcore.components.analyzers/9.0.8",
-      "hashPath": "microsoft.aspnetcore.components.analyzers.9.0.8.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Components.Forms/9.0.8": {
       "type": "package",
@@ -481,13 +470,6 @@
       "sha512": "sha512-GA3moxioWoF/lzRRGNjz+7LD91tajHvS4S6zn3Y3G1p/Koes7pj6gZIt4rzGhe4iIn4rvdj9wxpmN6quObgfMw==",
       "path": "system.identitymodel.tokens.jwt/8.13.0",
       "hashPath": "system.identitymodel.tokens.jwt.8.13.0.nupkg.sha512"
-    },
-    "System.Text.Encodings.Web/8.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ==",
-      "path": "system.text.encodings.web/8.0.0",
-      "hashPath": "system.text.encodings.web.8.0.0.nupkg.sha512"
     }
   }
 }
