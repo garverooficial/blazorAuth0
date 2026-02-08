@@ -1,0 +1,84 @@
+@using Auth0.ManagementApi
+@using Auth0.ManagementApi.Models
+@using BlazorApp1.Components.Pages
+
+<div class="user-dialog">
+    
+    <RadzenRadioButtonList TItem="RoleListItem"
+                           TValue="string"
+                           Data="@roles"
+                           TextProperty="Name"
+                           ValueProperty="Id"
+                           Orientation="Orientation.Vertical"
+                           @bind-Value="@_selectedRole"
+                           />
+
+
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0">
+        <RadzenButton Click="@(() => OnClose.InvokeAsync())" Variant="Variant.Text" class="rz-text-secondary-color" Text="Cancel"/>
+        <RadzenButton Click="@(() => Save())" Variant="Variant.Text" Text="Send"/>
+    </RadzenStack>
+</div>
+
+@code {
+
+    [Inject] private IManagementApiClient _managementApiClient { get; set; }
+    [Inject] public required NotificationService NotificationService { get; set; }
+
+    [Parameter] public Counter.UserItemList User { get; set; }
+
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private IEnumerable<RoleListItem> roles = new List<RoleListItem>();
+    public string _selectedRole = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var request = new GetRolesRequest();
+            var data = await _managementApiClient.Roles.GetAllAsync(request);
+            roles = data.Select(r => new RoleListItem { Id = r.Id, Name = r.Name }).ToList();
+        }
+        catch (Exception e)
+        {
+             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error cargando roles", Detail = e.Message, Duration = 4000 });
+        }
+        
+        StateHasChanged();
+    }
+
+    private async Task Save()
+    {
+        if (string.IsNullOrEmpty(_selectedRole))
+        {
+             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Warning, Summary = "Seleccione un rol", Detail = null, Duration = 4000 });
+             return;
+        }
+
+        try
+        {
+            var request = new AssignRolesRequest { Roles = new[] { _selectedRole } };
+            await _managementApiClient.Users.AssignRolesAsync(User.UserId, request);
+            
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Se ha guardado con éxito", Detail = null, Duration = 4000 });
+            await OnClose.InvokeAsync();
+        }
+        catch (Exception e)
+        {
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Error guardando", Detail = e.Message, Duration = 4000 });
+        }
+    }
+
+    void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
+    }
+
+    public class RoleListItem
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
+
+}

@@ -2,6 +2,8 @@
 @inherits LayoutComponentBase
 @rendermode InteractiveServer
 
+<RadzenComponents />
+
 <RadzenLayout>
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween">
@@ -60,8 +62,11 @@
     {
         var state = await AuthenticationStateTask;
 
-        Username = state.User.Identity.Name ?? string.Empty;
-        Picture = state.User.FindFirst("picture")?.Value;
+        if (state.User.Identity?.IsAuthenticated ?? false)
+        {
+            Username = state.User.Identity.Name ?? string.Empty;
+            Picture = state.User.FindFirst("picture")?.Value;
+        }
 
         await base.OnInitializedAsync();
     }

@@ -10,60 +10,130 @@
 
 <h1>Usuarios</h1>
 
-<RadzenDataGrid 
-    AllowFiltering="true" 
-    AllowColumnResize="true" 
-    AllowAlternatingRows="false" 
-    FilterMode="FilterMode.Advanced" 
-    AllowSorting="true" PageSize="5" 
-    AllowPaging="true" 
-    PagerHorizontalAlign="HorizontalAlign.Left" 
+<RadzenDataGrid
+    AllowFiltering="true"
+    AllowColumnResize="true"
+    AllowAlternatingRows="false"
+    FilterMode="FilterMode.Advanced"
+    AllowSorting="true" PageSize="5"
+    AllowPaging="true"
+    PagerHorizontalAlign="HorizontalAlign.Left"
     ShowPagingSummary="true"
-    Data="@users" 
-    ColumnWidth="300px" 
-    LogicalFilterOperator="LogicalFilterOperator.Or" 
-    SelectionMode="DataGridSelectionMode.Single" 
+    Data="@users"
+    ColumnWidth="300px"
+    LogicalFilterOperator="LogicalFilterOperator.Or"
+    SelectionMode="DataGridSelectionMode.Single"
     @bind-Value=@selectedUsers>
     <Columns>
-        <RadzenDataGridColumn Property="@nameof(UserItemList.UserId)" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="80px" TextAlign="TextAlign.Center" >
+        <RadzenDataGridColumn Property="@nameof(UserItemList.UserId)" Filterable="false" Title="ID" Frozen="true"
+                              Width="80px" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="80px"
+                              TextAlign="TextAlign.Center">
             <Template Context="data">
-                <RadzenImage Path="@data.Picture" class="rz-gravatar" AlternateText="@(data.FullName)" />
+                <RadzenImage Path="@data.Picture" class="rz-gravatar" AlternateText="@(data.FullName)"/>
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn Property="@nameof(UserItemList.FullName)" Title="First Name" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn Property="@nameof(UserItemList.FullName)" Title="First Name" Frozen="true" Width="160px"/>
         <RadzenDataGridColumn Property="@nameof(UserItemList.Email)" Title="Last Name" Width="160px"/>
+        <RadzenDataGridColumn Property="@nameof(UserItemList.Rol)" Title="Rol" Context="user">
+            <Template Context="user">
+                <RadzenBadge BadgeStyle="BadgeStyle.Primary" Text="@user.Rol"/>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn Context="user" Filterable="false" Sortable="false" TextAlign="TextAlign.Right"
+                              Frozen="true" FrozenPosition="FrozenColumnPosition.Right">
+            <Template Context="user">
+                <RadzenButton Text="Ver" ButtonStyle="ButtonStyle.Info" Click="@(() => ShowUserDialog(user))"
+                              Size="ButtonSize.Small"/>
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 
 @code {
+
+    [Inject] DialogService DialogService { get; set; }
+
     IEnumerable<UserItemList> users = new List<UserItemList>();
     IList<UserItemList> selectedUsers;
+    
+    public class ExtendedAssignedUser : AssignedUser
+    {
+        public string Role { get; set; }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
- 
-        //users = dbContext.users;
-        var request = new GetUsersRequest();
-        var model = await _managementApiClient.Users.GetAllAsync(request);
+        
+        var request = new GetRolesRequest();
+        var roles = await _managementApiClient.Roles.GetAllAsync(request);
+        var rolesIds = roles.Select(s => s.Id);
 
-        users = model.Select(s => new UserItemList()
+        var assignedUsers = new Dictionary<string, IEnumerable<AssignedUser>>();
+
+        foreach (var id in rolesIds)
+        {
+            var output =  await _managementApiClient.Roles.GetUsersAsync(id);
+            assignedUsers.Add(id, output.Select(s => s));
+        }
+
+        var result = (from items in assignedUsers
+                let k = items.Key
+                from u in items.Value.Select(r => r)
+                select new ExtendedAssignedUser()
+                {
+                    UserId = u.UserId,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    Picture = u.Picture,
+                    Role = roles.FirstOrDefault(s => s.Id == k)?.Name
+                }).GroupBy(d => d.UserId)
+            .Select(d => d.FirstOrDefault());
+
+        users = result.Select(s => new UserItemList()
         {
             UserId = s.UserId,
             Picture = s.Picture,
             FullName = s.FullName,
-            Email = s.Email
+            Email = s.Email,
+            Rol = s.Role
         });
 
-        //selectedusers = new List<Employee>(){ users.FirstOrDefault() };
     }
-    
+
     public class UserItemList
     {
+        public string Rol { get; set; }
         public string UserId { get; set; }
         public string FullName { get; set; }
         public string Picture { get; set; }
         public string Email { get; set; }
     }
+
+    private async Task ShowUserDialog(UserItemList user)
+    {
+        await DialogService.OpenAsync<Modals.UserDialog>(
+            $"Usuario: {user.FullName}",
+            new Dictionary<string, object>
+            {
+                { nameof(Modals.UserDialog.User), user },
+                {
+                    nameof(Modals.UserDialog.OnClose), EventCallback.Factory.Create(this, async () =>
+                        {
+                            DialogService.Close();
+                        }
+                    )
+                },
+            },
+            new DialogOptions
+            {
+                Width = "500px",
+                Height = "auto",
+                CloseDialogOnEsc = true,
+                CloseDialogOnOverlayClick = true
+            }
+        );
+    }
+
 }
